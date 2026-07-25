@@ -1,6 +1,9 @@
 package org.javiersian.system;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
@@ -16,6 +19,12 @@ public class Principal extends Application{
 
     @Override
     public void start(Stage escenarioPrincipal) throws Exception {
-        
+        //convertir .fxml en nodo raiz
+        Parent raiz = FXMLLoader.load(
+                getClass().getResource("/org/javiersian/view/InicioSesionView.fxml"));
+        Scene escena = new Scene(raiz);
+
+        escenarioPrincipal.setScene(escena);
+        escenarioPrincipal.show();
     }
 }
