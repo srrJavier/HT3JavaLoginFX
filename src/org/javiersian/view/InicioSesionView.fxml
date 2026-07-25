@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/26" fx:controller="org.javiersian.controller.InicioSesionController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.javiersian.controller.InicioSesionController">
     <stylesheets>
         <URL value="@/org/javiersian/view/style/iniciosesionview.css" />
     </stylesheets>
@@ -22,31 +22,31 @@
             <GridPane>
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="140.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="248.0" minWidth="10.0" prefWidth="209.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
               </columnConstraints>
               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="39.0" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="65.0" minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="68.0" minHeight="10.0" prefHeight="53.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="47.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Label text="Usuario" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label text="Contraseña" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <PasswordField GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <TextField fx:id="txtUsuario" prefHeight="25.0" prefWidth="226.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <PasswordField fx:id="txtPassword" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                </children>
             </GridPane>
          </children>
       </StackPane>
-      <Label layoutX="228.0" layoutY="55.0" text="Iniciar Sesión">
+      <Label layoutX="215.0" layoutY="45.0" text="Inicio de Sesión">
          <font>
             <Font name="Arial" size="24.0" />
          </font>
       </Label>
-      <Button layoutX="250.0" layoutY="316.0" mnemonicParsing="false" text="INICIAR SESIÓN" />
-      <Label layoutX="278.0" layoutY="361.0" text="mensaje" />
+      <Button fx:id="btnIniciarSesion" layoutX="250.0" layoutY="347.0" mnemonicParsing="false" onAction="#eventoInicioSesion" text="INICIAR SESIÓN" />
+      <Label fx:id="lblMensaje" layoutX="278.0" layoutY="314.0" text="Mensaje" textFill="#da0e0e" />
    </children>
 </AnchorPane>
