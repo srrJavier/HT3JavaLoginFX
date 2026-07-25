@@ -1,8 +1,6 @@
 
 package org.javiersian.controller;
 
-
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,13 +23,15 @@ public class InicioSesionController implements Initializable {
 
     @FXML
     private TextField txtUsuario;
+
     @FXML
     private PasswordField txtPassword;
+
     @FXML
-    private Button btnIniciarSesion;
+    private Button btniniciarSesion;
+
     @FXML
     private Label lblMensaje;
-
     private UsuarioDAO usuarioDAO;
 
     @Override
@@ -50,9 +50,11 @@ public class InicioSesionController implements Initializable {
             lblMensaje.setText("Por favor, complete todos sus datos.");
             return;
         }
+        
         String passwordHash = SecurityUtil.hashSHA256(password);
         Usuario usuarioIniciado = usuarioDAO.iniciarSesion(usuario, passwordHash);
         if (usuarioIniciado != null) {
+            lblMensaje.setStyle(  "-fx-background-color: #60682e;");
             lblMensaje.setText("Inicio correcto");
             abrirDashboard(usuarioIniciado);
         } else {
@@ -68,21 +70,26 @@ public class InicioSesionController implements Initializable {
     switch (usuario.getRol().toLowerCase()) {
 
         case "admin":
-            rutaFXML = "/org/ds/view/AdminDashboardView.fxml";
+            rutaFXML = "/org/javiersian/view/AdminDashboardView.fxml";
             tituloDashboard = "Panel de Administración";
             break;
 
         case "empleado":
-            rutaFXML = "/org/ds/view/EmpleadoDashboardView.fxml";
+            rutaFXML = "/org/javiersian/view/EmpleadoDashboardView.fxml";
             tituloDashboard = "Panel de Empleado";
             break;
 
+        case "cajero":
+            rutaFXML = "/org/javiersian/view/CajeroDashboardView.fxml";
+
+            tituloDashboard = "Panel de Cajero";
+            break;
         default:
             lblMensaje.setStyle("-fx-text-fill: red;");
-            lblMensaje.setText("El rol del usuario no es válido.");
+                lblMensaje.setText("El rol del usuario no es válido.");
             return;
         }
-
+            
         try {
 
             URL archivoFXML = getClass().getResource(rutaFXML);
@@ -95,25 +102,28 @@ public class InicioSesionController implements Initializable {
                 return;
             }
 
-            FXMLLoader cargadorFXML
-                    = new FXMLLoader(archivoFXML);
+            FXMLLoader cargadorFXML = new FXMLLoader(archivoFXML);
 
             Parent raiz = cargadorFXML.load();
 
             switch (usuario.getRol().toLowerCase()) {
 
                 case "admin":
-                    AdminDashboradController adminController
-                            = cargadorFXML.getController();
+                    AdminDashboradController adminController = cargadorFXML.getController();
 
                     adminController.iniciarUsuario(usuario);
                     break;
 
                 case "empleado":
-                    EmpleadoDashboardController empleadoController
-                            = cargadorFXML.getController();
+                    EmpleadoDashboardController empleadoController = cargadorFXML.getController();
 
                     empleadoController.iniciarUsuario(usuario);
+                    break;
+
+                case "cajero":
+                    CajeroDashboardController cajeroController = cargadorFXML.getController();
+
+                    cajeroController.iniciarUsuario(usuario);
                     break;
             }
 
@@ -121,30 +131,21 @@ public class InicioSesionController implements Initializable {
 
             escenario.setScene(new Scene(raiz));
             escenario.setTitle(tituloDashboard);
+
             escenario.show();
 
-            Stage escenaActual
-                    = (Stage) btnIniciarSesion
-                            .getScene()
-                            .getWindow();
-
+            Stage escenaActual = (Stage) btniniciarSesion.getScene().getWindow(); 
             escenaActual.close();
 
         } catch (IOException e) {
 
-            System.err.println(
-                    "Error al cargar la vista: "
-                    + rutaFXML
-                    + " - "
-                    + e.getMessage()
-            );
+            System.err.println("Error al cargar la vista: " + rutaFXML + " - " + e.getMessage());
 
             e.printStackTrace();
 
             lblMensaje.setStyle("-fx-text-fill: red;");
-            lblMensaje.setText(
-                    "Error interno al cargar el panel."
-            );
+
+            lblMensaje.setText("Error interno al cargar el panel.");
         }
     }
 }

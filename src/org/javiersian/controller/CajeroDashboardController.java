@@ -1,0 +1,32 @@
+
+package org.javiersian.controller;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import org.javiersian.model.Usuario;
+
+public class CajeroDashboardController implements Initializable {
+
+    @FXML
+    private Label lblBienvenida;
+
+    private Usuario usuarioActual;
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+
+    }
+
+    public void iniciarUsuario(Usuario usuario) {
+        this.usuarioActual = usuario;
+
+        lblBienvenida.setText("Bienvenido cajero " + usuario.getUsername());
+    }
+
+    public Usuario getUsuarioActual() {
+        return usuarioActual;
+    }
+}
