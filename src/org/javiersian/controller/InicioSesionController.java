@@ -61,38 +61,90 @@ public class InicioSesionController implements Initializable {
     }
 
     private void abrirDashboard(Usuario usuario) {
-        String rutaFXML = "";
-        String tituloDashboard = "";
+        
+    String rutaFXML;
+    String tituloDashboard;
 
-        switch (usuario.getRol().toLowerCase()) {
-            case "admin":
-                rutaFXML = "/org/javiersian/view/AdminDashboradView.fxml";
-                tituloDashboard = "Panel de Administración";
-                break;
-            case "empleado":
+    switch (usuario.getRol().toLowerCase()) {
 
-                break;
+        case "admin":
+            rutaFXML = "/org/ds/view/AdminDashboardView.fxml";
+            tituloDashboard = "Panel de Administración";
+            break;
 
+        case "empleado":
+            rutaFXML = "/org/ds/view/EmpleadoDashboardView.fxml";
+            tituloDashboard = "Panel de Empleado";
+            break;
+
+        default:
+            lblMensaje.setStyle("-fx-text-fill: red;");
+            lblMensaje.setText("El rol del usuario no es válido.");
+            return;
         }
+
         try {
-            FXMLLoader cargadorFXML = new FXMLLoader(getClass().getResource(rutaFXML));
+
+            URL archivoFXML = getClass().getResource(rutaFXML);
+
+            if (archivoFXML == null) {
+                lblMensaje.setStyle("-fx-text-fill: red;");
+                lblMensaje.setText(
+                        "No se encontró la vista: " + rutaFXML
+                );
+                return;
+            }
+
+            FXMLLoader cargadorFXML
+                    = new FXMLLoader(archivoFXML);
+
             Parent raiz = cargadorFXML.load();
-            
-            AdminDashboradController controlado = cargadorFXML.getController();
-            controlado.iniciarUsuario(usuario);            
-            
+
+            switch (usuario.getRol().toLowerCase()) {
+
+                case "admin":
+                    AdminDashboradController adminController
+                            = cargadorFXML.getController();
+
+                    adminController.iniciarUsuario(usuario);
+                    break;
+
+                case "empleado":
+                    EmpleadoDashboardController empleadoController
+                            = cargadorFXML.getController();
+
+                    empleadoController.iniciarUsuario(usuario);
+                    break;
+            }
+
             Stage escenario = new Stage();
+
             escenario.setScene(new Scene(raiz));
             escenario.setTitle(tituloDashboard);
             escenario.show();
-            
-            Stage escenaActual = (Stage) btnIniciarSesion.getScene().getWindow();
+
+            Stage escenaActual
+                    = (Stage) btnIniciarSesion
+                            .getScene()
+                            .getWindow();
+
             escenaActual.close();
-            
+
         } catch (IOException e) {
-            System.err.println("Error al cargar la vista:" + rutaFXML+ e.getMessage());
-            lblMensaje.setText("Error interno");
+
+            System.err.println(
+                    "Error al cargar la vista: "
+                    + rutaFXML
+                    + " - "
+                    + e.getMessage()
+            );
+
+            e.printStackTrace();
+
+            lblMensaje.setStyle("-fx-text-fill: red;");
+            lblMensaje.setText(
+                    "Error interno al cargar el panel."
+            );
         }
     }
-
 }
